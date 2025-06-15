@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Menu;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $menus = Menu::getAllActive(); // Hasil: array of stdClass
+        $menuTree = Menu::buildMenuTree($menus);
+        // dd($menuTree);
+        return view('home', compact('menuTree'));
     }
 }
