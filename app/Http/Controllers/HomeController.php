@@ -24,9 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $menus = Menu::getAllActive(); // Hasil: array of stdClass
-        $menuTree = Menu::buildMenuTree($menus);
-        // dd($menuTree);
-        return view('home', compact('menuTree'));
+        return view('home');
     }
 }

@@ -35,6 +35,22 @@
         @media (max-width: 768px) {
             .sidebar { min-width: 100px; }
         }
+        main.container {
+            min-height: 75vh;
+        }
+        .card {
+            background: #fff;
+            max-width: 1250px;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
     </style>
 
     <!-- Scripts -->
@@ -46,10 +62,21 @@
     <div class="flex-grow-1">
         @include('layouts.partials.navbar')
         <main class="container mt-4">
-            @yield('content')
+            <div class="card shadow-sm rounded-4 p-3">
+                @yield('content')
+            </div>
         </main>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
+<!-- jQuery (wajib) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+@stack('scripts')
 </body>
 </html>

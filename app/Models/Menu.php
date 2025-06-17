@@ -7,26 +7,32 @@ use Illuminate\Support\Facades\DB;
 class Menu
 {
     // Ambil semua menu aktif (bisa pakai parameter kalau mau filter lain)
-    public static function getAllActive()
+    public static function getMenuTree()
     {
-        return DB::select("
-            SELECT * FROM menus
-            WHERE is_active = 1
-            ORDER BY parent_id, `order`
-        ");
+        // Ambil semua menu aktif, urut parent_id & order
+        $menus = DB::select('SELECT * FROM menus WHERE is_active = 1 ORDER BY parent_id, `order`');
+
+        // Convert ke array (biar gampang diolah)
+        $menus = json_decode(json_encode($menus), true);
+
+        // Build tree recursive
+        return self::buildTree($menus);
     }
 
-    // Helper: Build menu tree dari array result raw query
-    public static function buildMenuTree($menus, $parentId = null)
+    private static function buildTree($items, $parentId = null)
     {
         $branch = [];
-        foreach ($menus as $menu) {
-            if ($menu->parent_id == $parentId) {
-                $children = self::buildMenuTree($menus, $menu->id);
-                $menu->children = $children;
-                $branch[] = $menu;
+        foreach ($items as $item) {
+            if ($item['parent_id'] == $parentId) {
+                $children = self::buildTree($items, $item['id']);
+                if ($children) {
+                    $item['children'] = $children;
+                }
+                $branch[] = (object) $item; // kembalikan sebagai object, biar enak di blade
             }
         }
         return $branch;
     }
+
+
 }
